@@ -17,17 +17,20 @@ only 2, error out normaly. don't detect that shit
 
 ## base functionality:
 
-read header -- into struct
-read entire file -- into struct
-write entire file -- from struct
-write bank to file -- from char *
-read bank -- into char*
-read title -- into char*
+read header -- into `struct`
+read entire file -- into `struct`
+write entire file -- from `struct`
+write bank to file -- from `char *`
+read bank -- into `char*`
+read title -- into `char*`
 set title -- from string into file
-get bank offset in file -- given a header if header is NULL, then figure it out yourself.
-read tile -- from char*
-read tile range -- from char* returning GSList
-write tile -- to char*
-decompile -- from char*
+get bank offset in file -- given a header if `header` is `NULL`, then figure it out yourself.
+read tile -- from `char*`
+read tile range -- from `char*` returning `GSList`
+write tile -- to `char*`
+decompile -- from `char*`
 
+## to compile:
+
+    clang -o nestest nesromtool/util.c nesromtool.c -Wall -O0 -g -I. `pkg-config --libs --cflags glib-2.0`
 
