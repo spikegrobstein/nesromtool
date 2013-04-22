@@ -5,7 +5,7 @@
 int
 main(int argc, char **argv, char **env)
 {
-  nes_rom_header_t *header = (nes_rom_header_t*)malloc(sizeof(nes_rom_header_t));
+  nes_rom_t *rom = (nes_rom_t*)malloc(sizeof(nes_rom_t));
 
   char *filename = argv[1];
 
@@ -15,8 +15,8 @@ main(int argc, char **argv, char **env)
 
   f = fopen(filename, "r");
 
-  if (nes_read_header_from_file(f, header) != NES_HEADER_SIZE) {
-    printf("Unable to read header!\n");
+  if (!nes_read_rom_from_file(f, rom)) {
+    printf("Unable to read rom!\n");
     return 0;
   }
 

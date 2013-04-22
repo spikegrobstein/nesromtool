@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <glib.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -83,7 +84,7 @@ extern "C" {
 #define NES_PRG_BANK_LENGTH         16384    /* length (in bytes) of a PRG Bank: 16KB */
 #define NES_CHR_BANK_LENGTH         8192    /* length (in bytes) of a CHR Bank: 8KB */
 
-#define NES_TITLE_BLOCK_LENGTH         128      /* the block size (including padding) of the title data that gets appended to the end of the file */
+#define NES_TITLE_LENGTH         128      /* the block size (including padding) of the title data that gets appended to the end of the file */
 
 /**
  *  NESRomHeader
@@ -101,12 +102,29 @@ typedef struct {
   int32_t       unused_block_2;
 } nes_rom_header_t;
 
-size_t nes_read_header_from_file(FILE *ifile, nes_rom_header_t *header);
+
+typedef struct {
+  nes_rom_header_t *header;
+
+  GSList *prg_banks;
+  GSList *chr_banks;
+
+  char title[NES_TITLE_LENGTH];
+} nes_rom_t;
 
 //header functions:
+size_t nes_read_header_from_file(FILE *ifile, nes_rom_header_t *header);
 //returns the number of PRG and CHR banks respectively
 size_t nes_get_prg_bank_count_from_file(FILE *ifile);
 size_t nes_get_chr_bank_count_from_file(FILE *ifile);
+
+size_t nes_get_prg_bank_offset(FILE *ifile, int bank_index, nes_rom_header_t *header);
+size_t nes_get_chr_bank_offset(FILE *ifile, int bank_index, nes_rom_header_t *header);
+
+size_t nes_read_prg_bank_from_file(FILE *ifile, int bank_index, nes_rom_header_t *header, char *buf);
+size_t nes_read_chr_bank_from_file(FILE *ifile, int bank_index, nes_rom_header_t *header, char *buf);
+
+size_t nes_read_rom_from_file(FILE *ifile, nes_rom_t *rom);
 
 #ifdef __cplusplus
 };
