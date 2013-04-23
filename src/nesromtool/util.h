@@ -15,7 +15,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <glib.h>
+#include <sys/stat.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -125,6 +127,8 @@ size_t nes_read_prg_bank_from_file(FILE *ifile, int bank_index, nes_rom_header_t
 size_t nes_read_chr_bank_from_file(FILE *ifile, int bank_index, nes_rom_header_t *header, char *buf);
 
 size_t nes_read_rom_from_file(FILE *ifile, nes_rom_t *rom);
+
+bool nes_validate_rom_file(FILE *ifile);
 
 #ifdef __cplusplus
 };

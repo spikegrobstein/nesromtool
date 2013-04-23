@@ -164,3 +164,31 @@ nes_read_rom_from_file(FILE *ifile, nes_rom_t *rom)
   return 1;
 }
 
+/**
+ ** Validates the following criteria:
+ ** 1. the file starts with the proper magic word (NES_HEADER_PREFIX)
+ ** 2. the file is large enough to contain all PRG and CHR banks
+ **
+ ** returns true if valid
+ **/
+bool
+nes_validate_rom_file(FILE *ifile)
+{
+  nes_rom_header_t *header = (nes_rom_header_t *)malloc(sizeof(nes_rom_header_t));
+  size_t filesize;
+
+  // FIXME: this should do some error checking
+  nes_read_header_from_file(ifile, header);
+
+  // get the size of the file
+  fseek(ifile, 0, SEEK_END);
+
+  filesize = ftell(ifile);
+
+  // verify:
+  if (strncmp(header->magic_word, NES_HEADER_PREFIX, NES_HEADER_PREFIX_SIZE) != 0 ) { return false; }
+  if (NES_HEADER_SIZE + (header->prg_count * NES_PRG_BANK_LENGTH) + (header->chr_count * NES_CHR_BANK_LENGTH) > filesize) { return false; }
+
+  return true;
+}
+
