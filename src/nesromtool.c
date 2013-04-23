@@ -15,6 +15,13 @@ main(int argc, char **argv, char **env)
 
   f = fopen(filename, "r");
 
+  if (nes_validate_rom_file(f)) {
+    printf("ROM is OK!\n");
+  } else {
+    printf("ROM is FUCKED\n");
+    exit(EXIT_FAILURE);
+  }
+
   if (!nes_read_rom_from_file(f, rom)) {
     printf("Unable to read rom!\n");
     return 0;
