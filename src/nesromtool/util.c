@@ -64,12 +64,21 @@ nes_get_chr_bank_count_from_file(FILE *ifile) {
   return (size_t)fgetc(ifile);
 }
 
+/**
+ ** Given a bank index, return the offset of that PRG bank in the .nes file
+ ** ifile and header are unused and are only included for API consistency.
+ */
 size_t
 nes_get_prg_bank_offset(FILE *ifile, int bank_index, nes_rom_header_t *header)
 {
   return (NES_HEADER_OFFSET + NES_HEADER_SIZE + ( bank_index * NES_PRG_BANK_LENGTH ));
 }
 
+/**
+ ** Given an ifile or header and bank_index, return the offset of that CHR bank in the .nes file
+ ** If header is supplied, ifile is not required as the index can be calculated
+ ** If header is not supplied, the ifile will have the PRG bank count read in first.
+ */
 size_t
 nes_get_chr_bank_offset(FILE *ifile, int bank_index, nes_rom_header_t *header)
 {
@@ -87,6 +96,10 @@ nes_get_chr_bank_offset(FILE *ifile, int bank_index, nes_rom_header_t *header)
           + (bank_index * NES_CHR_BANK_LENGTH));      // shift forward bank_index CHR banks
 }
 
+/**
+ ** Given a FILE, bank index and optional header, read in a PRG bank to buf
+ ** buf should be pre-allocated for NES_PRG_BANK_LENGTH bytes
+ */
 size_t
 nes_read_prg_bank_from_file(FILE *ifile, int bank_index, nes_rom_header_t *header, char *buf)
 {
@@ -98,6 +111,10 @@ nes_read_prg_bank_from_file(FILE *ifile, int bank_index, nes_rom_header_t *heade
   return fread(buf, NES_PRG_BANK_LENGTH, 1, ifile);
 }
 
+/**
+ ** Given a FILE, bank index and optional header, read in a CHR bank to buf
+ ** buf should be pre-allocated for NES_CHR_BANK_LENGTH bytes
+ */
 size_t
 nes_read_chr_bank_from_file(FILE *ifile, int bank_index, nes_rom_header_t *header, char *buf)
 {
@@ -109,6 +126,10 @@ nes_read_chr_bank_from_file(FILE *ifile, int bank_index, nes_rom_header_t *heade
   return fread(buf, NES_CHR_BANK_LENGTH, 1, ifile);
 }
 
+/**
+ ** Given a FILE and a pre-allocated nes_rom_t, read the entire file into rom
+ ** rom->header, prg_banks, chr_banks and title should not be allocated
+ */
 size_t
 nes_read_rom_from_file(FILE *ifile, nes_rom_t *rom)
 {
