@@ -40,7 +40,7 @@ nes_read_header_from_file(FILE *ifile, nes_rom_header_t *header)
  **  returns the number of PRG Banks in ifile
  **  returns 0 if an error occurrs
 **/
-size_t
+int8_t
 nes_get_prg_bank_count_from_file(FILE *ifile) {
 
   if (fseek(ifile, NES_PRG_COUNT_OFFSET, SEEK_SET) != 0) {
@@ -54,7 +54,7 @@ nes_get_prg_bank_count_from_file(FILE *ifile) {
  **  returns the number of CHR banks in ifile
  **  returns 0 if an error occurrs
  **/
-size_t
+int8_t
 nes_get_chr_bank_count_from_file(FILE *ifile) {
 
   if (fseek(ifile, NES_CHR_COUNT_OFFSET, SEEK_SET) != 0) {

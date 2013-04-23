@@ -115,8 +115,8 @@ typedef struct {
 //header functions:
 size_t nes_read_header_from_file(FILE *ifile, nes_rom_header_t *header);
 //returns the number of PRG and CHR banks respectively
-size_t nes_get_prg_bank_count_from_file(FILE *ifile);
-size_t nes_get_chr_bank_count_from_file(FILE *ifile);
+int8_t nes_get_prg_bank_count_from_file(FILE *ifile);
+int8_t nes_get_chr_bank_count_from_file(FILE *ifile);
 
 size_t nes_get_prg_bank_offset(FILE *ifile, int bank_index, nes_rom_header_t *header);
 size_t nes_get_chr_bank_offset(FILE *ifile, int bank_index, nes_rom_header_t *header);
