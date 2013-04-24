@@ -12,6 +12,8 @@ Makefile.in
 /install-sh
 /missing
 
+/config.log
+
 # Object files
 *.o
 
